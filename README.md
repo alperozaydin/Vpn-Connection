@@ -22,6 +22,8 @@ python ./connection.py MyServer
 
 It will quit Mail Application before connecting VPN to prevent unsusal sign-in activity.
 
+===================================================
+
 To disconnect vpn:
 
 Go to the directory you have downloaded.
