@@ -1,4 +1,12 @@
-# Vpn-Connection
+Download vpnSetUp.scpt and open with apple script.
+
+Change server information with yours and run it.
+
+To run script on Terminal:
+
+osascript vpnSetUp.scpt
+
+===================================================
 
 Go to the directory you have downloaded.
 
