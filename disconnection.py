@@ -4,43 +4,7 @@ import os
 import time
 import sys
 
-
-
-def getNetworkdServices():
-
-	output = commands.getoutput("networksetup" + " -listallnetworkservices")
-
-	output = output.split("\n")
-
-	statusOutput = []
-	myServerList = []
-
-	for i in range(len(output)):
-		statusOutput.append(commands.getoutput("networksetup" + " -showpppoestatus " + output[i]))
-
-
-	for i in range(len(statusOutput)):
-		if "disconnected" and "connected" in statusOutput[i]:
-			myServerList.append(output[i])
-
-
-
-	return myServerList
-
-
-myServer = getNetworkdServices()
-
-result = "a"
-
-isDisconnected = False
-
-def checkConnection():
-	global result
-	for i in range(len(myServer)):
-		status, output = commands.getstatusoutput("networksetup" + " -showpppoestatus " + myServer[i])
-		if (output == "connected"):
-			result = myServer[i]
-	return
+from helper import get_info, get_network_services
 
 
 def disconnection(myServer):
@@ -54,11 +18,30 @@ def disconnection(myServer):
 	if output == "Connected":
 		return Disconnection(myServer)
 	print "Disconnected: " + result
+	from subprocess import Popen, PIPE
+	scpt = 'display notification with title "Vpn Connection" subtitle "Connection is over: ' + where_is + '!"'
+	p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+	stdout, stderr = p.communicate(scpt)
+
+	return
+
+def check_connection():
+	global result
+	for i in range(len(myServer)):
+		status, output = commands.getstatusoutput("networksetup" + " -showpppoestatus " + myServer[i])
+		if (output == "connected"):
+			result = myServer[i]
 	return
 
 
+myServer = get_network_services()
 
-checkConnection()
+result = "a"
+
+isDisconnected = False
+
+check_connection()
+where_is = get_info()
 disconnection(myServer)
 
 
